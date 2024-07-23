@@ -2,15 +2,19 @@ package com.exemplo.gerenciador_tarefas.sender;
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
+@Component
 public class TarefaSender {
 
-    @Autowired
-    private RabbitTemplate rabbitTemplate;
+    private final RabbitTemplate rabbitTemplate;
 
-    public void sendMessage(String message) {
-        rabbitTemplate.convertAndSend("tarefas", message);
+    @Autowired
+    public TarefaSender(RabbitTemplate rabbitTemplate) {
+        this.rabbitTemplate = rabbitTemplate;
+    }
+
+    public void sendMessage(String mensagem) {
+        rabbitTemplate.convertAndSend("nomeDaExchange", "nomeDaRota", mensagem);
     }
 }
