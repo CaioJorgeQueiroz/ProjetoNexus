@@ -8,7 +8,7 @@ public class DataService {
 
     @Cacheable("dados")
     public String obterDados(String parametro) {
-        // Simular uma operação demorada
+
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {

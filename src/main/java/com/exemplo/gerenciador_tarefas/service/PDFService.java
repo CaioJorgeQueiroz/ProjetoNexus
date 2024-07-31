@@ -32,12 +32,10 @@ public class PDFService {
 
             document.add(new Paragraph("ATIVIDADES DO DIA " + data.toString()));
 
-            // Adicionar tarefas do dia específico
             for (Tarefa tarefa : tarefas) {
                 document.add(new Paragraph(tarefa.getDescricao() + " - " + tarefa.getPrioridade() + " - " + (tarefa.isConcluida() ? "Concluída" : "Não Concluída")));
             }
 
-            // Adicionar atividades recorrentes para o dia da semana
             DayOfWeek diaDaSemana = data.getDayOfWeek();
             Set<String> atividadesRecorrentes = atividadeRecorrenteService.obterAtividadesRecorrentes(diaDaSemana);
             if (!atividadesRecorrentes.isEmpty()) {

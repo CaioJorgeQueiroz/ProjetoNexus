@@ -2,7 +2,7 @@ package com.exemplo.gerenciador_tarefas.controller;
 
 import com.exemplo.gerenciador_tarefas.model.Tarefa;
 import com.exemplo.gerenciador_tarefas.service.PDFService;
-import com.exemplo.gerenciador_tarefas.service.TarefaService; // Adicione esta importação
+import com.exemplo.gerenciador_tarefas.service.TarefaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -21,12 +21,12 @@ import java.util.List;
 public class RelatorioController {
 
     private final PDFService pdfService;
-    private final TarefaService tarefaService; // Adicione esta linha
+    private final TarefaService tarefaService;
 
     @Autowired
     public RelatorioController(PDFService pdfService, TarefaService tarefaService) {
         this.pdfService = pdfService;
-        this.tarefaService = tarefaService; // Inicialize o serviço
+        this.tarefaService = tarefaService;
     }
 
     @GetMapping("/pdf")
@@ -42,13 +42,13 @@ public class RelatorioController {
 
             return new ResponseEntity<>(pdf, headers, HttpStatus.OK);
         } catch (Exception e) {
-            e.printStackTrace(); // Adicione o rastreamento da pilha para depuração
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
     private List<Tarefa> buscarTarefasPorData(LocalDate data) {
-        // Obtenha as tarefas reais usando o serviço
+
         return tarefaService.obterTarefas(data);
     }
 }

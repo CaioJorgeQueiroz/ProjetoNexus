@@ -18,27 +18,23 @@ public class TarefaService {
         this.tarefaRepository = tarefaRepository;
     }
 
-    // Adiciona uma nova tarefa para uma data específica
+
     public void adicionarTarefa(LocalDate data, Tarefa tarefa) {
         tarefaRepository.adicionarTarefa(data, tarefa);
     }
 
-    // Obtém a lista de tarefas para uma data específica
     public List<Tarefa> obterTarefas(LocalDate data) {
         return tarefaRepository.obterTarefas(data);
     }
 
-    // Atualiza uma tarefa existente
     public void atualizarTarefa(LocalDate data, Tarefa tarefa) {
         tarefaRepository.atualizarTarefa(data, tarefa);
     }
 
-    // Remove uma tarefa específica
     public void removerTarefa(LocalDate data, Tarefa tarefa) {
         tarefaRepository.removerTarefa(data, tarefa);
     }
 
-    // Marca uma tarefa como concluída
     public void marcarComoConcluida(LocalDate data, String descricao) {
         List<Tarefa> tarefas = tarefaRepository.obterTarefas(data);
         for (Tarefa tarefa : tarefas) {
