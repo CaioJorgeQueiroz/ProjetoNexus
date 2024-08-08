@@ -6,18 +6,15 @@ import com.exemplo.gerenciador_tarefas.service.TarefaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @RestController
 @RequestMapping("/relatorios")
+@CrossOrigin(origins = "http://localhost:3000")
 public class RelatorioController {
 
     private final PDFService pdfService;
@@ -29,26 +26,22 @@ public class RelatorioController {
         this.tarefaService = tarefaService;
     }
 
-    @GetMapping("/pdf")
+    @PostMapping("/gerar")
     public ResponseEntity<byte[]> gerarRelatorio(@RequestParam("data") String data) {
         try {
             LocalDate localDate = LocalDate.parse(data);
-            List<Tarefa> tarefas = buscarTarefasPorData(localDate);
+            List<Tarefa> tarefas = tarefaService.obterTarefas(localDate);
 
-            byte[] pdf = pdfService.gerarRelatorio(localDate, tarefas);
+            byte[] pdfBytes = pdfService.gerarRelatorio(localDate, tarefas);
+
             HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_PDF);
-            headers.setContentDispositionFormData("attachment", "relatorio.pdf");
+            headers.add(HttpHeaders.CONTENT_TYPE, "application/pdf");
+            headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=relatorio.pdf");
 
-            return new ResponseEntity<>(pdf, headers, HttpStatus.OK);
+            return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }
-
-    private List<Tarefa> buscarTarefasPorData(LocalDate data) {
-
-        return tarefaService.obterTarefas(data);
     }
 }

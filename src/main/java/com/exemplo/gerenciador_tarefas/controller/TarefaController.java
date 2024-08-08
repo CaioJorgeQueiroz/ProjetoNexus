@@ -23,7 +23,6 @@ public class TarefaController {
         this.tarefaService = tarefaService;
     }
 
-    // Adiciona uma nova tarefa
     @PostMapping("/adicionar")
     public ResponseEntity<String> adicionarTarefa(
             @RequestParam("data") String data,
@@ -39,7 +38,6 @@ public class TarefaController {
         }
     }
 
-    // Obtém todas as tarefas para uma data específica
     @GetMapping("/obter")
     public ResponseEntity<List<Tarefa>> obterTarefas(@RequestParam("data") String data) {
         try {
@@ -51,7 +49,6 @@ public class TarefaController {
         }
     }
 
-    // Atualiza uma tarefa
     @PutMapping("/atualizar")
     public ResponseEntity<String> atualizarTarefa(
             @RequestParam("data") String data,
@@ -68,7 +65,6 @@ public class TarefaController {
         }
     }
 
-    // Remove uma tarefa
     @DeleteMapping("/remover")
     public ResponseEntity<String> removerTarefa(
             @RequestParam("data") String data,
@@ -83,7 +79,6 @@ public class TarefaController {
         }
     }
 
-    // Marca uma tarefa como concluída
     @PostMapping("/marcar-concluida")
     public ResponseEntity<String> marcarComoConcluida(
             @RequestParam("data") String data,
